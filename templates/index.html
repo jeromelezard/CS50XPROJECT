@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="text-center">
+
+{% if session["user_id"] == id %}
+<h1 id="textTitle">Add New List</h1>
+    
+    <form action="/list" method="POST">
+        <input autofocus autocomplete="off" id="listName" name="listName" type="text" required placeholder="Enter List Name...">
+        <button type="submit" class="button" id="createButton">Create</button>
+    </form>
+    {%else%}
+        <h1 id="textTitle">{{name}}'s lists</h1>
+    {% if isFriend == 1  %}
+    <div class="buttonWrapper">
+        <div id="{{id}}" class="button addOrRemove" onclick="addOrRemove('{{id}}', '{{name}}')">Remove Friend</div>
+    </div>
+    {%else%}
+    <div class="buttonWrapper">
+        <div id="{{id}}" class="button addOrRemove" onclick="addOrRemove('{{id}}', '{{name}}')">Add Friend</div>
+    </div>
+    {%endif%}
+{% endif %}
+    <br>
+    <br>    
+    <div class="container-1">
+    
+    {% for i in range(length) %}
+    
+    <div onclick="location.href='/list/{{user_lists[i].id}}';" class="list-item">
+        <strong>{{user_lists[i].list_name}}</strong>
+        <em><p class="subtext">Number of entries: {{entries[i]}}</p></em>
+    </div>
+
+    {%endfor%}
+    </div>
+{% endblock %}

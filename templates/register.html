@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="text-center">
+    <h1>Register</h1>
+    <br>
+    {% if error %}
+    <p class="error">Error: {{error}}</p>
+{% endif %}
+<form action="/register" method="post">
+    <div class="mb-3">
+        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username" type="text">
+    </div>
+    <div class="mb-3">
+        <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
+    </div>
+    <div class="mb-3">
+        <input class="form-control mx-auto w-auto" id="password" name="confirmation" placeholder="Repeat Password" type="password">
+    </div>
+    <button class="button" type="submit">Register</button>
+</form>
+<br>
+<a href="/login" class="subtext"><em>(Login instead)</em></a>
+</div>
+{% endblock %}

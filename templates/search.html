@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="text-center">
+    <h1>Showing results for "{{name}}"</h1>
+    <em><p class="subtext"><a href="/friends">(Back to friends list)</em></a></p>
+    
+<form action="/friends", method="POST">
+    <input required type="text" id="friendSearch" name="friendSearch" autocomplete="off" placeholder="Search for a user...">
+    <button type="submit" id="searchButton" class="button">Search</button>
+</form>
+<br>
+    <table class="friendSearch">
+    {% for i in range(length) %}
+        {% if userList[i].username not in friends %}
+        <tr class="friendSearchRow">
+           <td class="friendSearch-item">
+               <span class="friendSearchContent"><a href="/profile/{{userList[i].id}}"><h3><strong>{{userList[i].username}}</strong></h3></a>Number of Lists: {{numberOfLists[i]}}</span></td>
+           <td class="friendSearchButton"><div id="{{userList[i].id}}" class="button" onclick="addOrRemove('{{userList[i].id}}', '{{userList[i].username}}')">Add Friend</div></td>
+        </tr>
+           {% elif userList[i].username in friends %}
+        <tr class="friendSearchRow">
+           <td class="friendSearch-item">
+               <span class="friendSearchContent"><a href="/profile/{{userList[i].id}}"><h3><strong>{{userList[i].username}}</strong></h3></a>Number of Lists: {{numberOfLists[i]}}</span></td>
+           <td class="friendSearchButton"><div id="{{userList[i].id}}" class="button" onclick="addOrRemove('{{userList[i].id}}', '{{userList[i].username}}')">Remove Friend</div></td>
+        </tr>
+           {% else %}    
+        <tr class="friendSearchRow">
+           <td class="friendSearch-item">{{userList[i].username}}(You)</td>
+        </tr>
+        {%endif%}
+    {% endfor %}
+    </table>
+    </ul>
+</div>
+{% endblock %}

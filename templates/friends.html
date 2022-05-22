@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="header text-center">
+<h1>Friends</h1>
+
+<form action="/friends", method="POST">
+    <input required autofocus type="text" id="friendSearch"  name="friendSearch" autocomplete="off" placeholder="Search for a user...">
+    <button type="submit" id="searchButton" class="button" >Search</button>
+</form>
+</div>
+<br />
+<div class="content text-center">
+
+{% for i in range(length) %}
+<div onclick="location.href='/profile/{{friends[i].friend_id}}';" class="friendList-item">
+    
+<strong>{{friends[i].username}}</strong><em><p class="subtext">Number of Lists: {{numberOfLists[i]}}</p></em>
+
+</div>
+
+{%endfor%}
+</div>
+{% endblock %}

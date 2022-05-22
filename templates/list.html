@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="text-center">
+
+<h1 class="listTitle">"{{ title }}"
+    {% if user_id == session["user_id"] %}
+<!--<span onclick="plus()" id="addButton" class="iconify" data-icon="mdi:plus" data-height="50" data-width="50"></span>-->
+{% endif %}
+</h1>
+
+{% if user_id == session["user_id"] %}
+    <div id="autocompleteParent" class="autocompleteParent">
+        <input autocomplete="off" autofocus id="search" name="search" type="text" placeholder="Add film or TV show...">
+    
+        <div id="autocomplete" class="hidden"> 
+            <ul id="autocompleteList"></ul>
+        </div>
+    </div>
+{% else %}
+    <p><a href="/profile/{{user_id}}"> Created by {{name}}</a></p>
+{% endif %}
+
+
+</div>
+    <div class="listContainer">
+        <table id="resultList">
+            
+        </table>
+        </div>
+
+        <table class="inList">
+            {% for i in range(length) %}
+            {% if entry_array_type[i] == 0 %}
+                <tr class="list">
+                    {% if entry_array[i].poster_path is none %}
+                        <td><img src='/static/missing.jpg' width="92" height="138"></td>
+                    {% else %}
+                        <td><img src='https://image.tmdb.org/t/p/w92/{{entry_array[i].poster_path}}'></td>
+                    {% endif %}
+                    <td><h2 class="titles" name="name"><a href="https://www.themoviedb.org/movie/{{entry_array[i].id}}" target="_blank">{{entry_array[i].title}}</a> </h2> <p class="dates"><em>({{entry_array[i].release_date[:4]}})</em></p>
+                        <p class="text">{{entry_array[i].overview}}</p></td>
+                    {% if user_id == session["user_id"] %}
+                        <td><button onclick="deleteItem('{{entry_array[i].id}}')" value="{{entry_array[i].id}}" class="button" id="myBtn">Delete</button></td>
+                    {% endif %}
+                    </tr>
+            {% else %}
+            <tr class="list">
+                {% if entry_array[i].poster_path is none %}
+                        <td><img src='/static/missing.jpg' width="92" height="138"></td>
+                {% else %}
+                    <td><img src='https://image.tmdb.org/t/p/w92/{{entry_array[i].poster_path}}'></td>
+                {% endif %}
+                <td><h2 class="titles" name="name"><a href="https://www.themoviedb.org/tv/{{entry_array[i].id}}" target="_blank">{{entry_array[i].name}} </a> </h2><p class="dates"><em>({{entry_array[i].first_air_date[:4]}} - {{entry_array[i].last_air_date[:4]}})</em></p>
+                <p class="text">{{entry_array[i].overview}}</p></td>
+                {% if user_id == session["user_id"] %}
+                    <td><button onclick="deleteItem('{{entry_array[i].id}}')" value="{{entry_array[i].id}}" class="button" id="myBtn">Delete</button></td>
+                {% endif %}
+                </tr>
+            {%endif%}
+            {%endfor%}
+        </div>
+        </table>
+        {% if user_id == session["user_id"] %}
+            <button class="button listDelete" onclick="deleteList('{{list_id}}')">Delete List</button>
+        {%endif%}
+        <br>
+        <br>
+    </div>
+{% endblock %}
