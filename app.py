@@ -1,7 +1,6 @@
 import os
 import requests
 import urllib.parse
-
 from dotenv import load_dotenv
 from cs50 import SQL
 from flask import Flask, flash, jsonify, make_response, redirect, render_template, request, session
@@ -140,8 +139,6 @@ def register():
         hashed = generate_password_hash(password)
         db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", username, hashed)
         rows = db.execute("SELECT * FROM users WHERE username = ?", username)
-
-
         session["user_id"] = rows[0]["id"]
         session["username"] = rows[0]["username"]
         return redirect("/")
@@ -154,13 +151,10 @@ def create_entry():
     
     req = request.get_json()
     rows = db.execute("SELECT * FROM entries WHERE entry_id = ? and list_id = ?",  req["id"], req["list_id"])
-    
     if len(rows) != 0:
-        return None
-        
+        return None    
     db.execute("INSERT INTO entries (entry_id, list_id, entry_type) VALUES (?, ?, ?)", req["id"], req["list_id"], req["entry_type"] )
     res = make_response(jsonify({"message": "JSON received"}), 200)
-
     return res
 
 @app.route("/list", methods=["GET", "POST"])
